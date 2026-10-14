@@ -1,0 +1,246 @@
+Panels:
+  - Class: rviz/Displays
+    Help Height: 70
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+      Splitter Ratio: 0.5
+    Tree Height: 148
+  - Class: moveit_whole_body_ik/CsvWholeBodyIkPanel
+    Name: CSV Whole-Body IK
+    csv_path: ""
+Preferences:
+  PromptSaveOnExit: true
+Toolbars:
+  toolButtonStyle: 2
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.029999999329447746
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 20
+      Reference Frame: world
+      Value: true
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        Link1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        Link2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        Link3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        Link4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        Link5:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        Link6:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_gripper_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_world_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        front_eir_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        front_laser:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        left_eir_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        left_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        mid_laser_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        rear_laser:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        right_eir_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        right_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+      Name: RobotModel
+      Robot Description: robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.10000000149011612
+      Class: rviz/Pose
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.25
+      Head Radius: 0.07999999821186066
+      Name: IK Target Pose
+      Queue Size: 10
+      Shaft Length: 0.5
+      Shaft Radius: 0.03999999910593033
+      Shape: Arrow
+      Topic: /whole_body_moveit_ik/target_pose
+      Unreliable: false
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /whole_body_ik/csv_points
+      Name: CSV Points
+      Namespaces:
+        csv_whole_body_ik_points: true
+      Queue Size: 100
+      Value: true
+    - Alpha: 0.6499999761581421
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 9.99976634979248
+        Min Value: 1.7952133930521086e-05
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: AxisColor
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 50; 50
+      Min Color: 30; 80; 255
+      Name: PCD Obstacles
+      Position Transformer: XYZ
+      Queue Size: 2
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Points
+      Topic: /whole_body_ik/pcd_cloud
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: false
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /whole_body_ik/pcd_test_results
+      Name: PCD IK Test Results
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+  Enabled: true
+  Global Options:
+    Background Color: 0; 0; 0
+    Default Light: true
+    Fixed Frame: world
+    Frame Rate: 10
+  Name: root
+  Tools:
+    - Class: rviz/Interact
+      Hide Inactive Objects: true
+    - Class: rviz/MoveCamera
+    - Class: rviz/Select
+  Value: true
+  Views:
+    Current:
+      Class: rviz/Orbit
+      Distance: 13.463312149047852
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.05999999865889549
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Field of View: 0.7853981852531433
+      Focal Point:
+        X: 10.188846588134766
+        Y: -3.3833749294281006
+        Z: 2.7726497650146484
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05000000074505806
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.009999999776482582
+      Pitch: 0.0950002670288086
+      Target Frame: <Fixed Frame>
+      Yaw: 1.4300001859664917
+    Saved: ~
+Window Geometry:
+  CSV Whole-Body IK:
+    collapsed: false
+  Displays:
+    collapsed: false
+  Height: 736
+  Hide Left Dock: false
+  Hide Right Dock: false
+  QMainWindow State: 000000ff00000000fd00000001000000000000016f0000028afc0200000002fb000000100044006900730070006c006100790073010000003b00000115000000c700fffffffb00000022004300530056002000570068006f006c0065002d0042006f0064007900200049004b01000001560000016f0000016f00ffffff000003430000028a00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Width: 1208
+  X: 72
+  Y: 27

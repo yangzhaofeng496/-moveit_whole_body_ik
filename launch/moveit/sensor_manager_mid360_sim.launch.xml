@@ -1,0 +1,7 @@
+<launch>
+  <!-- Four live PointCloud2 sectors published by the Gazebo Mid-360 approximation. -->
+  <arg name="moveit_sensor_manager" default="ir100" />
+  <rosparam command="load" file="$(find moveit_whole_body_ik)/config/sensors_mid360_sim.yaml" />
+  <param name="octomap_resolution" type="double" value="0.05" />
+  <param name="max_range" type="double" value="20.0" />
+</launch>

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Gazebo options -->
+  <arg name="gazebo_gui" default="true" doc="Start Gazebo GUI"/>
+  <arg name="paused" default="false" doc="Start Gazebo paused"/>
+  <arg name="world_name" default="worlds/empty.world" doc="Gazebo world file"/>
+  <arg name="world_pose" default="-x 0 -y 0 -z 0 -R 0 -P 0 -Y 0" doc="Pose to spawn the robot at"/>
+  <arg name="initial_joint_positions" default="" doc="Initial joint configuration of the robot"/>
+  <arg name="mid360_sim_enabled" default="false" doc="Enable the Gazebo Mid-360 point-cloud simulation"/>
+  <arg name="livox_sim_enabled" default="false" doc="Enable the Livox scan-pattern plugin on mid_laser_link"/>
+  <arg name="gazebo_static" default="false" doc="Spawn a static model that is not affected by gravity"/>
+  <arg name="use_mesh_collision" default="false" doc="Use original STL collision meshes instead of spheres"/>
+  <arg name="spawn_controllers" default="true" doc="Load Gazebo ros_control controller spawners"/>
+  <arg name="publish_robot_state" default="true" doc="Start a robot_state_publisher for Gazebo joint states"/>
+
+  <!-- Start Gazebo paused to allow the controllers to pickup the initial pose -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" pass_all_args="true">
+    <!-- empty_world.launch calls this argument `gui`; passing only our
+         wrapper's `gazebo_gui` leaves gzclient enabled even when the caller
+         requests a headless Gazebo run. -->
+    <arg name="gui" value="$(arg gazebo_gui)" />
+    <arg name="paused" value="true"/>
+  </include>
+
+  <!-- Set the robot urdf on the parameter server -->
+  <param name="robot_description"
+         command="xacro '$(find robot_description)/urdf/ir100_robot.xacro' mid360_sim_enabled:=$(arg mid360_sim_enabled) livox_sim_enabled:=$(arg livox_sim_enabled) gazebo_static:=$(arg gazebo_static) use_mesh_collision:=$(arg use_mesh_collision)" />
+
+  <!-- Unpause the simulation after loading the robot model -->
+  <arg name="unpause" value="$(eval '' if arg('paused') else '-unpause')" />
+
+  <!-- Spawn the robot in Gazebo -->
+  <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model robot $(arg unpause) $(arg world_pose) $(arg initial_joint_positions)"
+    respawn="false" output="screen" />
+
+  <!-- Load the controller parameters onto the parameter server -->
+  <rosparam file="$(find moveit_whole_body_ik)/config/gazebo_controllers.yaml" />
+  <include if="$(arg spawn_controllers)" file="$(dirname)/ros_controllers.launch"/>
+
+  <!-- Spawn the Gazebo ROS controllers -->
+  <node if="$(arg spawn_controllers)" name="gazebo_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller" />
+
+  <!-- Given the published joint states, publish tf for the robot links -->
+  <node if="$(arg publish_robot_state)" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" />
+</launch>

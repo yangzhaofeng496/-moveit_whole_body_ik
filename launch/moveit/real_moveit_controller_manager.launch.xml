@@ -1,0 +1,6 @@
+<launch>
+  <!-- The real Dobot bringup exposes a FollowJointTrajectory action. -->
+  <param name="moveit_controller_manager"
+         value="moveit_simple_controller_manager/MoveItSimpleControllerManager" />
+  <rosparam file="$(find moveit_whole_body_ik)/config/real_moveit_controllers.yaml" />
+</launch>

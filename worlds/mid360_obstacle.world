@@ -1,0 +1,64 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <!-- Keep Gazebo's world frame aligned with MoveIt's static world frame. -->
+  <world name="world">
+    <!-- Keep Gazebo's simulated clock close to wall time.  Without an
+         explicit real-time limit, headless gzserver can run much faster than
+         the 50 Hz joint-state/TF publishers, so sensor clouds arrive with
+         timestamps older than the earliest available robot transform. -->
+    <physics type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <real_time_factor>1</real_time_factor>
+    </physics>
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <model name="t_obstacle">
+      <static>true</static>
+      <!-- Place the obstacle in front of the roof-mounted Livox sensor so
+           its returns survive robot self-filtering. -->
+      <pose>1.2 0 1.551063 -1.564690 0 0.041462</pose>
+
+      <link name="stem">
+        <pose>0 0 0.5 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <box><size>0.3 0.3 1.0</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>0.3 0.3 1.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.1 0.1 1</ambient>
+            <diffuse>0.8 0.1 0.1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+
+      <link name="crossbar">
+        <pose>0 0 1.0 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <box><size>1.2 0.3 0.3</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>1.2 0.3 0.3</size></box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.1 0.1 1</ambient>
+            <diffuse>0.8 0.1 0.1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>

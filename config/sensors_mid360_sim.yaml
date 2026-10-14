@@ -1,0 +1,42 @@
+# Live Gazebo point clouds from the simulated Mid-360 sectors.
+sensors:
+  - sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
+    point_cloud_topic: /mid360_sim/front/points
+    max_range: 20.0
+    point_subsample: 2
+    padding_offset: 0.03
+    padding_scale: 1.0
+    max_update_rate: 5.0
+    filtered_cloud_topic: /mid360_sim/front/filtered_points
+  - sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
+    point_cloud_topic: /mid360_sim/left/points
+    max_range: 20.0
+    point_subsample: 2
+    padding_offset: 0.03
+    padding_scale: 1.0
+    max_update_rate: 5.0
+    filtered_cloud_topic: /mid360_sim/left/filtered_points
+  - sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
+    point_cloud_topic: /mid360_sim/rear/points
+    max_range: 20.0
+    point_subsample: 2
+    padding_offset: 0.03
+    padding_scale: 1.0
+    max_update_rate: 5.0
+    filtered_cloud_topic: /mid360_sim/rear/filtered_points
+  - sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
+    point_cloud_topic: /mid360_sim/right/points
+    max_range: 20.0
+    point_subsample: 2
+    padding_offset: 0.03
+    padding_scale: 1.0
+    max_update_rate: 5.0
+    filtered_cloud_topic: /mid360_sim/right/filtered_points
+  - sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
+    point_cloud_topic: /mid360_sim/up/points
+    max_range: 20.0
+    point_subsample: 2
+    padding_offset: 0.03
+    padding_scale: 1.0
+    max_update_rate: 2.0
+    filtered_cloud_topic: /mid360_sim/up/filtered_points

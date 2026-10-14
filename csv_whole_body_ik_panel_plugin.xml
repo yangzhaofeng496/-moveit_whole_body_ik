@@ -1,0 +1,7 @@
+<library path="lib/libmoveit_whole_body_ik_csv_panel">
+  <class name="moveit_whole_body_ik/CsvWholeBodyIkPanel"
+         type="moveit_whole_body_ik::CsvWholeBodyIkPanel"
+         base_class_type="rviz::Panel">
+    <description>Load CSV end-effector poses and solve them with whole-body IK.</description>
+  </class>
+</library>

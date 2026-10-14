@@ -1,0 +1,15 @@
+# MoveIt controller mapping for the Dobot CR10 bringup action server.
+# The bringup node advertises this action when DOBOT_TYPE=cr10:
+# /cr10_robot/joint_controller/follow_joint_trajectory
+controller_list:
+  - name: cr10_robot/joint_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6

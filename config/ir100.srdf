@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Semantic model for the arm-only Gazebo demo. -->
+<robot name="ir100">
+  <group name="arm">
+    <chain base_link="base_link" tip_link="arm_gripper_link"/>
+  </group>
+  <group_state name="start_pose" group="arm">   
+    <joint name="joint1" value="-0.001062238128045222"/>  
+    <joint name="joint2" value="-0.8553759022414483"/>   
+    <joint name="joint3" value="2.4313115704254153"/>    
+    <joint name="joint4" value="-0.04227028298955123"/> 
+    <joint name="joint5" value="-1.541075822215856"/>  
+    <joint name="joint6" value="-0.07133025522273063"/>
+  </group_state>
+
+  <!-- Gazebo publishes a fixed world -> base_link transform. -->
+  <virtual_joint name="virtual_joint" type="fixed"
+                 parent_frame="world" child_link="base_link"/>
+
+  <!-- Only directly adjacent links are exempt from self-collision checks. -->
+  <disable_collisions link1="Link1" link2="arm_base_link" reason="Adjacent"/>
+  <disable_collisions link1="Link1" link2="Link2" reason="Adjacent"/>
+  <disable_collisions link1="Link2" link2="Link3" reason="Adjacent"/>
+  <disable_collisions link1="Link3" link2="Link4" reason="Adjacent"/>
+  <disable_collisions link1="Link4" link2="Link5" reason="Adjacent"/>
+  <disable_collisions link1="Link5" link2="Link6" reason="Adjacent"/>
+  <disable_collisions link1="Link6" link2="arm_gripper_link" reason="Adjacent"/>
+</robot>

@@ -1,0 +1,17 @@
+geometry_msgs/Pose target_pose
+string reference_frame
+float64 timeout_sec
+int32 base_samples
+float64 base_radius
+float64 base_yaw_step
+---
+bool success
+string message
+float64 base_x
+float64 base_y
+float64 base_yaw
+string[] joint_names
+float64[] joint_positions
+float64 position_error
+float64 orientation_error
+float64 solve_time_ms

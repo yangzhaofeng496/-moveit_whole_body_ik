@@ -1,0 +1,14 @@
+<launch>
+  <arg name="group_name" default="arm" />
+  <arg name="reference_frame" default="base_link" />
+  <arg name="tip_link" default="arm_gripper_link" />
+  <arg name="planning_time" default="5.0" />
+  <param name="execute_after_plan" value="false"/>
+  <node pkg="moveit_whole_body_ik" type="move_to_pose_service_node"
+        name="move_to_pose_service" output="screen">
+    <param name="group_name" value="$(arg group_name)" />
+    <param name="reference_frame" value="$(arg reference_frame)" />
+    <param name="tip_link" value="$(arg tip_link)" />
+    <param name="planning_time" value="$(arg planning_time)" />
+  </node>
+</launch>

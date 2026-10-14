@@ -1,0 +1,62 @@
+<launch>
+  <arg name="use_rviz" default="true"/>
+  <arg name="use_pcd_obstacles" default="true"/>
+  <arg name="pcd_file"
+       default="$(find moveit_whole_body_ik)/maps/scans_voxel_5cm_xyz.pcd"/>
+  <arg name="pcd_resolution" default="0.2"/>
+
+  <include file="$(find moveit_whole_body_ik)/launch/moveit/move_group.launch">
+    <arg name="load_robot_description" value="true"/>
+    <arg name="allow_trajectory_execution" value="true"/>
+    <arg name="moveit_controller_manager" value="fake"/>
+    <arg name="publish_monitored_planning_scene" value="true"/>
+  </include>
+
+  <node if="$(arg use_pcd_obstacles)"
+        pkg="moveit_whole_body_ik"
+        type="pcd_octomap_planning_scene_node"
+        name="pcd_octomap_planning_scene"
+        output="screen">
+    <param name="pcd_file" value="$(arg pcd_file)"/>
+    <param name="frame_id" value="world"/>
+    <param name="cloud_topic" value="/whole_body_ik/pcd_cloud"/>
+    <param name="resolution" value="$(arg pcd_resolution)"/>
+    <param name="crop_to_workspace" value="true"/>
+    <param name="workspace_min_x" value="-2.0"/>
+    <param name="workspace_max_x" value="16.0"/>
+    <param name="workspace_min_y" value="-13.0"/>
+    <param name="workspace_max_y" value="5.0"/>
+    <param name="workspace_min_z" value="-1.0"/>
+    <param name="workspace_max_z" value="10.0"/>
+    <param name="filter_below_base_link" value="true"/>
+    <param name="base_link_z" value="0.0"/>
+    <param name="display_full_cloud" value="true"/>
+    <param name="display_resolution" value="0.10"/>
+  </node>
+
+  <node pkg="moveit_whole_body_ik" type="moveit_ik_service_node"
+        name="moveit_ik_service" output="screen">
+    <param name="group_name" value="arm"/>
+    <param name="base_link" value="base_link"/>
+    <param name="tip_link" value="arm_gripper_link"/>
+  </node>
+
+  <node pkg="moveit_whole_body_ik" type="sampled_whole_body_ik_service_node"
+        name="sampled_whole_body_ik_service" output="screen">
+    <param name="group_name" value="arm"/>
+    <param name="collision_group_name" value="whole_body"/>
+    <param name="planning_scene_topic" value="/planning_scene"/>
+    <param name="base_link" value="base_link"/>
+    <param name="tip_link" value="arm_gripper_link"/>
+  </node>
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher"
+        name="whole_body_robot_state_publisher" output="screen">
+    <param name="ignore_timestamp" value="true"/>
+    <remap from="/joint_states" to="/whole_body_moveit_ik/solution_joint_states"/>
+  </node>
+
+  <include if="$(arg use_rviz)" file="$(find moveit_whole_body_ik)/launch/moveit/moveit_rviz.launch">
+    <arg name="rviz_config" value="$(find moveit_whole_body_ik)/launch/moveit_whole_body_ik.rviz"/>
+  </include>
+</launch>

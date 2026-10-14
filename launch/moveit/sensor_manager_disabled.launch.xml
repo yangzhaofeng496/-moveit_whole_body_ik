@@ -1,0 +1,5 @@
+<launch>
+  <!-- Deliberately empty: use this while validating arm planning without
+       Gazebo point-cloud obstacle input. -->
+  <arg name="moveit_sensor_manager" default="ir100" />
+</launch>

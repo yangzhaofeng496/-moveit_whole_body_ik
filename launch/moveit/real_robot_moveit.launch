@@ -1,0 +1,87 @@
+<launch>
+     <arg name="use_mesh_collision" default="true"/>
+     <arg name="use_real_robot" default="true"/> 
+  <arg name="use_sim_time"
+       default="$(eval 'false' if arg('use_real_robot') else 'true')" />
+  <param name="/use_sim_time" value="$(arg use_sim_time)" default="false"/>
+  <arg name="pipeline" default="ompl" />
+  <arg name="gazebo_gui" default="false" />
+  <!-- The robot model is kinematic, so Gazebo physics can keep running for
+       ROS time and fake-controller execution without making the base fall. -->
+  <arg name="paused" default="false" />
+  <arg name="world_name" default="$(find moveit_whole_body_ik)/worlds/mid360_obstacle.world" />
+  <arg name="world_pose" default="-x 0 -y 0 -z 0.2 -R 0 -P 0 -Y 0" />
+  <arg name="initial_joint_positions"
+       default="-J joint1 -0.1298212446016354 -J joint2 -1.1983068889034356 -J joint3 2.4643989495602585 -J joint4 0.33790999598645527 -J joint5 -1.4614805964938609 -J joint6 -0.1545975306168726" />
+  <arg name="use_rviz" default="true" />
+  <arg name="enable_mid360_point_cloud" default="false" />
+  <arg name="livox_sim_enabled" default="false" />
+  <!-- Set true only when this demo should be the /joint_states source. -->
+  <arg name="publish_joint_states" default="false" />
+  <arg name="semantic_description"
+       default="$(find moveit_whole_body_ik)/config/ir100.srdf" />
+
+  <group unless="$(arg use_real_robot)">
+    <include file="$(dirname)/gazebo.launch" pass_all_args="true">
+      <arg name="mid360_sim_enabled" default="false"/>
+      <arg name="gazebo_static" value="false" />
+      <arg name="spawn_controllers" value="false" />
+      <!-- Publish the fixed Mid-360 link chain so MoveIt can transform each
+           point cloud into the planning frame (world). -->
+      <arg name="publish_robot_state" value="false" />
+      <arg name="paused" value="$(arg paused)" />
+      <arg name="initial_joint_positions" value="$(arg initial_joint_positions)" />
+    </include>
+  </group>
+
+  <include if="$(arg enable_mid360_point_cloud)" file="$(dirname)/demo.launch">
+    <arg name="pipeline" value="$(arg pipeline)" />
+    <arg name="load_robot_description" value="$(arg use_real_robot)" />
+    <arg name="moveit_controller_manager" value="simple" />
+    <arg name="use_real_robot" value="$(arg use_real_robot)" default="true"/>
+    <arg name="sensor_manager_launch" value="$(dirname)/sensor_manager_mid360_sim.launch.xml" />
+    <arg name="semantic_description" value="$(arg semantic_description)" />
+    <arg name="publish_virtual_joint_tf" value="$(arg use_real_robot)" />
+    <arg name="use_rviz" value="$(arg use_rviz)" />
+  </include>
+
+  <include unless="$(arg enable_mid360_point_cloud)" file="$(dirname)/demo.launch">
+    <arg name="pipeline" value="$(arg pipeline)" />
+    <arg name="load_robot_description" value="$(arg use_real_robot)" />
+    <arg name="moveit_controller_manager" value="simple" />
+    <arg name="use_real_robot" value="$(arg use_real_robot)" />
+    <!-- Livox scan points are the live 3D sensor input for MoveIt's OctoMap. -->
+    <arg name="sensor_manager_launch" value="$(dirname)/sensor_manager_livox.launch.xml" />
+    <arg name="semantic_description" value="$(arg semantic_description)" />
+    <arg name="publish_virtual_joint_tf" value="$(arg use_real_robot)" />
+    <arg name="use_rviz" value="$(arg use_rviz)" />
+  </include>
+
+  <group unless="$(arg use_real_robot)">
+    <node pkg="moveit_whole_body_ik" type="moveit_to_gazebo_sync_node"
+          name="moveit_to_gazebo_sync" output="screen" />
+    <node pkg="moveit_whole_body_ik" type="gazebo_follow_joint_trajectory_node"
+          name="gazebo_follow_joint_trajectory" output="screen">
+      <!-- The simple controller manager used by this Gazebo demo does not
+           provide fake joint states; this node is the /joint_states source. -->
+      <param name="publish_joint_states" value="$(arg publish_joint_states)" />
+      <rosparam param="initial_positions">
+        [-0.1298212446016354, -1.1983068889034356, 2.4643989495602585,
+         0.33790999598645527, -1.4614805964938609, -0.1545975306168726]
+      </rosparam>
+    </node>
+  </group>
+  <!-- MoveIt's PointCloudOctomapUpdater is the sole filtered-cloud
+       publisher. It removes points inside the URDF collision geometry using
+       the current joint states and sensor TF; do not add a second geometric
+       or radius-based filter on /livox/mid360/filtered_points. -->
+  <!-- Always release Gazebo from its startup pause.  The Livox plugin also
+       requires /clock to advance, even when the legacy depth-camera sectors
+       (enable_mid360_point_cloud) are disabled. -->
+  <node unless="$(arg use_real_robot)"
+        pkg="moveit_whole_body_ik" type="move_group_ready_unpause_gazebo_node"
+        name="move_group_ready_unpause_gazebo" output="screen" />
+
+  <include file="$(find dobot_v4_bringup)/launch/bringup_v4.launch" />
+  <include file="$(find moveit_whole_body_ik)/launch/moveit/move_to_pose.launch" />
+</launch>

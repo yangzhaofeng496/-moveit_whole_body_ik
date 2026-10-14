@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="mid360_obstacle_world">
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <model name="t_obstacle">
+      <static>true</static>
+
+      <link name="stem">
+        <pose>1.5 0 0.5 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <box><size>0.3 0.3 1.0</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>0.3 0.3 1.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.1 0.1 1</ambient>
+            <diffuse>0.8 0.1 0.1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+
+      <link name="crossbar">
+        <pose>1.5 0 1.0 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <box><size>1.2 0.3 0.3</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>1.2 0.3 0.3</size></box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.1 0.1 1</ambient>
+            <diffuse>0.8 0.1 0.1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>
