@@ -1,7 +1,7 @@
 <launch>
   <arg name="group_name" default="arm" />
   <arg name="reference_frame" default="base_link" />
-  <arg name="tip_link" default="arm_gripper_link" />
+  <arg name="tip_link" default="Link6" />
   <arg name="planning_time" default="5.0" />
   <param name="execute_after_plan" value="false"/>
   <node pkg="moveit_whole_body_ik" type="move_to_pose_service_node"
