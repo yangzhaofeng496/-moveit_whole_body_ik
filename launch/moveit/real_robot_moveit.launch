@@ -41,7 +41,7 @@
     <arg name="use_real_robot" value="$(arg use_real_robot)" default="true"/>
     <arg name="sensor_manager_launch" value="$(dirname)/sensor_manager_mid360_sim.launch.xml" />
     <arg name="semantic_description" value="$(arg semantic_description)" />
-    <arg name="publish_virtual_joint_tf" value="$(arg use_real_robot)" />
+    <arg name="publish_virtual_joint_tf" value="$(eval arg('use_real_robot') == 'false')" />
     <arg name="use_rviz" value="$(arg use_rviz)" />
   </include>
 
@@ -53,7 +53,7 @@
     <!-- Livox scan points are the live 3D sensor input for MoveIt's OctoMap. -->
     <arg name="sensor_manager_launch" value="$(dirname)/sensor_manager_livox.launch.xml" />
     <arg name="semantic_description" value="$(arg semantic_description)" />
-    <arg name="publish_virtual_joint_tf" value="$(arg use_real_robot)" />
+    <arg name="publish_virtual_joint_tf" value="$(eval arg('use_real_robot') == 'false')" />
     <arg name="use_rviz" value="$(arg use_rviz)" />
   </include>
 
@@ -82,6 +82,5 @@
         pkg="moveit_whole_body_ik" type="move_group_ready_unpause_gazebo_node"
         name="move_group_ready_unpause_gazebo" output="screen" />
 
-  <include file="$(find dobot_v4_bringup)/launch/bringup_v4.launch" />
   <include file="$(find moveit_whole_body_ik)/launch/moveit/move_to_pose.launch" />
 </launch>
